@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>B.Tech SGPA & CGPA Calculator</title>
@@ -18,167 +19,44 @@
 
 <h1>B.Tech SGPA & CGPA Calculator</h1>
 
+<p>Calculate your Semester GPA (SGPA) and Overall CGPA</p>
+
+<hr>
+
 <h2>Student Details</h2>
 
-<input type="text" placeholder="Student Name" id="name">
+<input type="text" id="name" placeholder="Student Name">
 
-<input type="text" placeholder="Roll Number" id="roll">
+<input type="text" id="roll" placeholder="Roll Number">
+
+<input type="text" id="college" placeholder="College Name">
 
 <select id="branch">
 
 <option>AI & DS</option>
-
 <option>CSE</option>
-
 <option>AIML</option>
-
 <option>ECE</option>
-
 <option>EEE</option>
-
 <option>IT</option>
-
 <option>Mechanical</option>
-
 <option>Civil</option>
 
 </select>
 
-<select id="semester">
+<hr>
 
-<option>Semester 1</option>
+<h2>Choose Calculator</h2>
 
-<option>Semester 2</option>
-
-<option>Semester 3</option>
-
-<option>Semester 4</option>
-
-<option>Semester 5</option>
-
-<option>Semester 6</option>
-
-<option>Semester 7</option>
-
-<option>Semester 8</option>
-
-</select>
-
-<h2>Subjects</h2>
-
-<table>
-
-<tr>
-
-<th>Subject</th>
-
-<th>Credits</th>
-
-<th>Grade</th>
-
-</tr>
-
-<tr>
-
-<td>Subject 1</td>
-
-<td><input type="number" id="c1"></td>
-
-<td>
-
-<select id="g1">
-
-<option>O</option>
-
-<option>A+</option>
-
-<option>A</option>
-
-<option>B+</option>
-
-<option>B</option>
-
-<option>C</option>
-
-<option>F</option>
-
-</select>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>Subject 2</td>
-
-<td><input type="number" id="c2"></td>
-
-<td>
-
-<select id="g2">
-
-<option>O</option>
-
-<option>A+</option>
-
-<option>A</option>
-
-<option>B+</option>
-
-<option>B</option>
-
-<option>C</option>
-
-<option>F</option>
-
-</select>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td>Subject 3</td>
-
-<td><input type="number" id="c3"></td>
-
-<td>
-
-<select id="g3">
-
-<option>O</option>
-
-<option>A+</option>
-
-<option>A</option>
-
-<option>B+</option>
-
-<option>B</option>
-
-<option>C</option>
-
-<option>F</option>
-
-</select>
-
-</td>
-
-</tr>
-
-</table>
-
-<br>
-
-<button onclick="calculateSGPA()">
-
-Calculate SGPA
-
+<button onclick="showSGPA()">
+SGPA Calculator
 </button>
 
-<h2 id="result"></h2>
+<button onclick="showCGPA()">
+CGPA Calculator
+</button>
+
+<div id="calculator"></div>
 
 </div>
 
