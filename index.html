@@ -4,49 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JNTU SGPA & CGPA Calculator</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="container">
 
-    <h1>JNTU SGPA & CGPA Calculator</h1>
+<h1>JNTU SGPA & CGPA Calculator</h1>
 
-    <p>Select your university, regulation and calculator.</p>
+<p>Select your University and Regulation</p>
 
-    <label>University</label>
+<label>University</label>
 
-    <select id="university">
-        <option>JNTUK</option>
-        <option>JNTUH</option>
-        <option>JNTUA</option>
-    </select>
+<select id="university">
 
-    <label>Regulation</label>
+<option value="JNTUK">JNTUK</option>
 
-    <select id="regulation">
-        <option>R23</option>
-        <option>R22</option>
-        <option>R20</option>
-        <option>R19</option>
-        <option>R16</option>
-        <option>R13</option>
-        <option>R10</option>
-    </select>
+<option value="JNTUH">JNTUH</option>
 
-    <h3>Choose Calculator</h3>
+<option value="JNTUA">JNTUA</option>
 
-    <button onclick="window.location='sgpa.html'">
-        SGPA Calculator
-    </button>
+</select>
 
-    <button onclick="window.location='cgpa.html'">
-        CGPA Calculator
-    </button>
+<label>Regulation</label>
+
+<select id="regulation">
+
+<option value="R23">R23</option>
+
+<option value="R22">R22</option>
+
+<option value="R20">R20</option>
+
+<option value="R19">R19</option>
+
+<option value="R16">R16</option>
+
+<option value="R13">R13</option>
+
+<option value="R10">R10</option>
+
+</select>
+
+<label>Calculator</label>
+
+<select id="calculator">
+
+<option value="sgpa">SGPA Calculator</option>
+
+<option value="cgpa">CGPA Calculator</option>
+
+</select>
+
+<button onclick="continueApp()">
+
+Continue
+
+</button>
 
 </div>
 
-<script src="script.js"></script>
+<script src="js/home.js"></script>
 
 </body>
 </html>
