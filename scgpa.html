@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JNTU SGPA Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+<h1>JNTU SGPA Calculator</h1>
+
+<label>Branch</label>
+
+<select id="branch">
+    <option>AI & DS</option>
+    <option>AIML</option>
+    <option>CSE</option>
+    <option>IT</option>
+    <option>ECE</option>
+    <option>EEE</option>
+    <option>Mechanical</option>
+    <option>Civil</option>
+</select>
+
+<label>Semester</label>
+
+<select id="semester">
+    <option>I-I</option>
+    <option>I-II</option>
+    <option>II-I</option>
+    <option>II-II</option>
+    <option>III-I</option>
+    <option>III-II</option>
+    <option>IV-I</option>
+    <option>IV-II</option>
+</select>
+
+<br><br>
+
+<button onclick="loadSubjects()">
+Load Subjects
+</button>
+
+<br><br>
+
+<div id="subjects"></div>
+
+<div id="result"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
