@@ -1,67 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>B.Tech SGPA & CGPA Calculator</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JNTU SGPA & CGPA Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="container">
 
-<h1>B.Tech SGPA & CGPA Calculator</h1>
+    <h1>JNTU SGPA & CGPA Calculator</h1>
 
-<p>Calculate your Semester GPA (SGPA) and Overall CGPA</p>
+    <p>Select your university, regulation and calculator.</p>
 
-<hr>
+    <label>University</label>
 
-<h2>Student Details</h2>
+    <select id="university">
+        <option>JNTUK</option>
+        <option>JNTUH</option>
+        <option>JNTUA</option>
+    </select>
 
-<input type="text" id="name" placeholder="Student Name">
+    <label>Regulation</label>
 
-<input type="text" id="roll" placeholder="Roll Number">
+    <select id="regulation">
+        <option>R23</option>
+        <option>R22</option>
+        <option>R20</option>
+        <option>R19</option>
+        <option>R16</option>
+        <option>R13</option>
+        <option>R10</option>
+    </select>
 
-<input type="text" id="college" placeholder="College Name">
+    <h3>Choose Calculator</h3>
 
-<select id="branch">
+    <button onclick="window.location='sgpa.html'">
+        SGPA Calculator
+    </button>
 
-<option>AI & DS</option>
-<option>CSE</option>
-<option>AIML</option>
-<option>ECE</option>
-<option>EEE</option>
-<option>IT</option>
-<option>Mechanical</option>
-<option>Civil</option>
-
-</select>
-
-<hr>
-
-<h2>Choose Calculator</h2>
-
-<button onclick="showSGPA()">
-SGPA Calculator
-</button>
-
-<button onclick="showCGPA()">
-CGPA Calculator
-</button>
-
-<div id="calculator"></div>
+    <button onclick="window.location='cgpa.html'">
+        CGPA Calculator
+    </button>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
-
 </html>
