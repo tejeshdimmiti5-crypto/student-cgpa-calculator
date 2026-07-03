@@ -1,54 +1,71 @@
-function getGradePoint(grade){
+function loadSubjects(){
 
-    if(grade=="O") return 10;
-    if(grade=="A+") return 9;
-    if(grade=="A") return 8;
-    if(grade=="B+") return 7;
-    if(grade=="B") return 6;
-    if(grade=="C") return 5;
+document.getElementById("subjects").innerHTML=`
 
-    return 0;
-}
+<table border="1" width="100%">
 
-function calculateSGPA(){
+<tr>
+<th>Subject</th>
+<th>Credits</th>
+<th>Grade</th>
+</tr>
 
-    let credits=[
-        Number(document.getElementById("c1").value),
-        Number(document.getElementById("c2").value),
-        Number(document.getElementById("c3").value)
-    ];
+<tr>
+<td>Programming</td>
+<td>3</td>
+<td>
+<select>
+<option>S</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>E</option>
+<option>F</option>
+</select>
+</td>
+</tr>
 
-    let grades=[
-        document.getElementById("g1").value,
-        document.getElementById("g2").value,
-        document.getElementById("g3").value
-    ];
+<tr>
+<td>Mathematics</td>
+<td>4</td>
+<td>
+<select>
+<option>S</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>E</option>
+<option>F</option>
+</select>
+</td>
+</tr>
 
-    let totalCredits=0;
-    let totalCreditPoints=0;
+<tr>
+<td>Physics</td>
+<td>3</td>
+<td>
+<select>
+<option>S</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>E</option>
+<option>F</option>
+</select>
+</td>
+</tr>
 
-    for(let i=0;i<3;i++){
+</table>
 
-        totalCredits+=credits[i];
+<br>
 
-        totalCreditPoints+=credits[i]*getGradePoint(grades[i]);
+<button onclick="alert('Next we will calculate SGPA')">
+Calculate SGPA
+</button>
 
-    }
+`;
 
-    let sgpa=(totalCreditPoints/totalCredits).toFixed(2);
-
-    let percentage=(sgpa*9.5).toFixed(2);
-
-    document.getElementById("result").innerHTML=
-    `
-    <h3>Result</h3>
-
-    Total Credits : ${totalCredits}<br><br>
-
-    Total Credit Points : ${totalCreditPoints}<br><br>
-
-    SGPA : ${sgpa}<br><br>
-
-    Percentage : ${percentage}%
-    `;
 }
