@@ -1,7 +1,7 @@
 from app.voice.contracts import VoiceInput, VoiceOutput
 
 class VoicePipeline:
-    """Provider-neutral voice orchestration boundary."""
+    """Provider-neutral voice orchestration with graceful text fallback."""
 
     def __init__(self, stt=None, tts=None):
         self.stt = stt
