@@ -120,20 +120,12 @@ class JarvisOrchestrator:
                         "action_id": item.task_id, "reason": "explicit confirmation required",
                     }), event_sink)
                 else:
-                    # Cognitive router can override the static DAG target for direct intents.
-                    if action.action_id == "respond" or decision.agent is None:
-                        output = self.executor.execute(action)
-                    else:
-                        routed = type(action)(
-                            action_id=action.action_id,
-                            kind="agent",
-                            target=decision.agent,
-                            input=action.input,
-                            dependencies=action.dependencies,
-                            priority=action.priority,
-                            requires_confirmation=decision.requires_confirmation,
-                        )
-                        output = self.executor.execute(routed)
+                    output = self.executor.execute(action)
+                    if isinstance(output, dict) and output.get("status") == "error":
+                        self.events.publish(Event("jarvis.action.retryable", {
+                            "action_id": item.task_id,
+                            "reason": "execution returned an error",
+                        }), event_sink)
 
                 outputs[item.task_id] = output
                 completed.add(item.task_id)
@@ -153,4 +145,12 @@ class JarvisOrchestrator:
         if any(isinstance(v, dict) and v.get("status") == "confirmation_required" for v in outputs.values()):
             return "Confirmation required before I can perform that action."
 
-        return f"JARVIS plan completed: {len(completed)}/{len(action_plan.actions)} actions. Confidence: {action_plan.confidence:.2f}"
+        summary = {
+            "goal": normalized,
+            "decision": decision.intent,
+            "agent": decision.agent,
+            "confidence": action_plan.confidence,
+            "actions": len(completed),
+            "outputs": outputs,
+        }
+        return f"JARVIS completed: {len(completed)}/{len(action_plan.actions)} actions | {decision.intent} | confidence {action_plan.confidence:.2f}"
