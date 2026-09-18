@@ -14,6 +14,7 @@ from app.reasoning.engine import ReasoningEngine
 from app.reasoning.models import ReasoningRequest
 from app.reasoning.dag_planner import DAGPlanner
 from app.reasoning.cognitive_loop import CognitiveLoop
+from app.memory.semantic import SemanticMemory
 
 class JarvisOrchestrator:
     """Cognitive coordinator for perception, reasoning, memory, planning and safe execution."""
@@ -33,6 +34,7 @@ class JarvisOrchestrator:
         self.reasoning = ReasoningEngine()
         self.dag_planner = DAGPlanner()
         self.cognitive_loop = CognitiveLoop(self)
+        self.semantic_memory = SemanticMemory()
 
     def _memory_context(self, query: str) -> dict:
         episodic = self.long_term_memory.search(query, limit=5)
@@ -41,6 +43,7 @@ class JarvisOrchestrator:
             "episodic": [{"key": x.key, "value": x.value, "importance": x.importance} for x in episodic],
             "recent": [{"key": x.key, "value": x.value, "timestamp": x.timestamp.isoformat()} for x in recent],
             "knowledge_graph": self.memory_graph.to_context("jarvis", max_hops=2),
+            "semantic": self.semantic_memory.recall(query, limit=5),
         }
 
     def handle(self, command: str, event_sink=None) -> str:
@@ -50,6 +53,7 @@ class JarvisOrchestrator:
             return "I need a command, sir."
 
         self.memory.remember("last_command", normalized)
+        self.semantic_memory.remember("command", normalized, memory_type="episodic")
         self.long_term_memory.add("command", normalized, "episodic", 0.6)
         self.temporal_memory.add("command", normalized, 0.6)
         self.events.publish(Event("jarvis.command.received", {"command": normalized}), event_sink)
