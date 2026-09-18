@@ -7,7 +7,7 @@ function App(){
  const [messages,setMessages]=useState([]);
  const [input,setInput]=useState("");
  const [online,setOnline]=useState(false);
- const [thinking,setThinking]=useState(false);\n const [activity,setActivity]=useState("STANDBY");\n const [activeAgent,setActiveAgent]=useState("CORE");
+ const [thinking,setThinking]=useState(false);\n const [activity,setActivity]=useState("STANDBY");\n const [activeAgent,setActiveAgent]=useState("CORE");\n const [agentStates,setAgentStates]=useState({});
  const [time,setTime]=useState(new Date());
  const ws=useRef(null);
  useEffect(()=>{
@@ -24,7 +24,7 @@ function App(){
    }catch{}
    return()=>{clearInterval(timer);ws.current?.close()}
  },[]);
- const send=()=>{
+ useEffect(()=>{fetch("http://localhost:8000/v1/status").then(r=>r.json()).then(d=>{const s={};(d.agents||[]).forEach(a=>s[a.name]="ready");setAgentStates(s)}).catch(()=>{})},[online]);\n const send=()=>{
    if(!input.trim())return;
    const text=input.trim();
    setMessages(m=>[...m,{role:"user",text}]);
@@ -55,7 +55,7 @@ function App(){
       <div className="equalizer">{Array.from({length:18},(_,i)=><i key={i}/>)}</div>
     </section>
     <aside className="side right">
-      <div className="panel"><label>AGENT MATRIX</label>{["PLANNER","RESEARCH","CODER","VISION","BROWSER","COMPUTER"].map((x,i)=><div className="agent" key={x}><span>{String(i+1).padStart(2,"0")}</span>{x}<b>●</b></div>)}</div>
+      <div className="panel"><label>AGENT MATRIX</label>{["PLANNER","RESEARCH","CODER","VISION","BROWSER","COMPUTER"].map((x,i)=>{const key=x.toLowerCase();const active=activeAgent===x;return <div className={"agent "+(active?"active":"")} key={x}><span>{String(i+1).padStart(2,"0")}</span>{x}<b>{active?"◆":"●"}</b></div>})}</div>
       <div className="panel"><label>TASK ENGINE</label><div>QUEUE <b>READY</b></div><div>DAG <b>ACTIVE</b></div><div>WORKERS <b>4</b></div></div>
     </aside>
    </div>
