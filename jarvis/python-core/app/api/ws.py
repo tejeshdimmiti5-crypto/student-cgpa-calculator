@@ -8,7 +8,7 @@ async def jarvis_stream(websocket: WebSocket, orchestrator) -> None:
         while True:
             message = (await websocket.receive_text()).strip()
             if not message:
-                await websocket.send_json({"event":"jarvis.response","response":"I need a command, sir."})
+                await websocket.send_json({"event": "jarvis.error", "error": "Empty command"})
                 continue
 
             loop = asyncio.get_running_loop()
@@ -23,17 +23,15 @@ async def jarvis_stream(websocket: WebSocket, orchestrator) -> None:
                 loop.call_soon_threadsafe(event_queue.put_nowait, payload)
 
             task = asyncio.create_task(asyncio.to_thread(orchestrator.handle, message, sink))
+
             while not task.done() or not event_queue.empty():
                 try:
-                    event = await asyncio.wait_for(event_queue.get(), timeout=0.1)
+                    event = await asyncio.wait_for(event_queue.get(), timeout=0.05)
                     await websocket.send_json(event)
                 except asyncio.TimeoutError:
-                    pass
+                    continue
 
             response = await task
-            await websocket.send_json({
-                "event": "jarvis.response",
-                "response": response,
-            })
-    except WebSocketDisconnect:
+            await websocket.send_json({"event": "jarvis.response", "response": response})
+    except (WebSocketDisconnect, RuntimeError):
         return
