@@ -30,7 +30,7 @@ class JarvisOrchestrator:
         self.reasoning = ReasoningEngine()
         self.dag_planner = DAGPlanner()
 
-    def handle(self, command: str) -> str:
+    def handle(self, command: str, event_sink=None) -> str:
         perception = self.perception.process(
             PerceptionInput(source="cli", content=command, modality="text")
         )
@@ -40,7 +40,7 @@ class JarvisOrchestrator:
 
         self.memory.remember("last_command", normalized)
         self.long_term_memory.add("command", normalized, "episodic", 0.6)
-        self.events.publish(Event("jarvis.command.received", {"command": normalized}))
+        self.events.publish(Event("jarvis.command.received", {"command": normalized}), event_sink)
 
         reasoning = self.reasoning.create_plan(
             ReasoningRequest(
@@ -91,7 +91,7 @@ class JarvisOrchestrator:
                     preferred = action.target if action.kind == "agent" else None
                     result = self.runtime.execute(normalized, preferred)
                     output = result.output
-                outputs[task_id] = output
+                self.events.publish(Event("jarvis.action.started", {\n                    "action_id": task_id, "kind": action.kind, "target": action.target,\n                }), event_sink)\n                outputs[task_id] = output
                 completed.add(task_id)
                 self.events.publish(Event("jarvis.action.completed", {
                     "action_id": task_id,
