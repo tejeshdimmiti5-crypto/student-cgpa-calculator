@@ -1,5 +1,5 @@
 from app.memory.memory import Memory
-from app.memory.store import MemoryStore
+from app.memory.persistent import PersistentMemory
 from app.memory.temporal import TemporalMemoryIndex
 from app.memory.graph import MemoryGraph
 from app.tasks.graph import TaskGraph
@@ -18,7 +18,7 @@ class JarvisOrchestrator:
 
     def __init__(self) -> None:
         self.memory = Memory()
-        self.long_term_memory = MemoryStore()
+        self.long_term_memory = PersistentMemory()
         self.temporal_memory = TemporalMemoryIndex()
         self.memory_graph = MemoryGraph()
         self.task_graph = TaskGraph()
