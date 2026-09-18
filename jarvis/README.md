@@ -1,17 +1,39 @@
 # JARVIS AI
 
-A real-world, movie-inspired personal AI assistant.
+A real-world, movie-inspired personal AI assistant platform.
 
-## Architecture
+## Core
+Perception → Cognitive Reasoning → Memory/RAG → Goal Management → DAG Planning → Multi-Agent Runtime → Secure Tool Fabric → Reflection/Recovery.
 
-- Cognitive Core: perception, reasoning, planning, memory
-- Agent Runtime: tools and specialized agents
-- Task Engine: dependency graph and priority scheduling
-- Infrastructure: PostgreSQL, Redis, event-driven services
-- Polyglot services: Python, Java, TypeScript, Go, Rust and C++
+## Interfaces
+- React/Vite real-time HUD
+- FastAPI HTTP gateway
+- WebSocket command stream
+- Voice pipeline boundary
 
-This repository is being evolved from the original Student CGPA Calculator into a modular JARVIS platform. The calculator remains a future JARVIS tool.
+## Memory
+- Working memory
+- Episodic memory
+- Semantic/vector memory
+- RAG context retrieval
 
-## Safety
+## Execution
+- Browser/Playwright boundary
+- Code sandbox
+- Workspace-scoped files
+- System tools
+- Redis task queue
+- Concurrent workers
 
-Sensitive or destructive computer actions must require explicit user confirmation.
+## Security
+Sensitive/destructive operations require explicit confirmation. Privileged computer control stays behind a security boundary.
+
+## Polyglot roadmap
+Python: cognition and agents
+Java: secure control plane
+TypeScript: interface
+Go: distributed workers
+Rust/C++: high-performance secure/native modules
+SQL: persistence
+
+The original student CGPA calculator remains in the repository as a future JARVIS tool.
