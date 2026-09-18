@@ -3,16 +3,12 @@ from fastapi import WebSocket, WebSocketDisconnect
 
 async def jarvis_stream(websocket: WebSocket, orchestrator) -> None:
     await websocket.accept()
-    await websocket.send_json({
-        "event": "jarvis.connected",
-        "status": "online",
-        "service": "JARVIS",
-    })
+    await websocket.send_json({"event": "jarvis.connected", "status": "online"})
     try:
         while True:
             message = (await websocket.receive_text()).strip()
             if not message:
-                await websocket.send_json({"event":"jarvis.error","error":"Empty command"})
+                await websocket.send_json({"event":"jarvis.response","response":"I need a command, sir."})
                 continue
 
             loop = asyncio.get_running_loop()
@@ -29,18 +25,15 @@ async def jarvis_stream(websocket: WebSocket, orchestrator) -> None:
             task = asyncio.create_task(asyncio.to_thread(orchestrator.handle, message, sink))
             while not task.done() or not event_queue.empty():
                 try:
-                    event = await asyncio.wait_for(event_queue.get(), timeout=0.05)
+                    event = await asyncio.wait_for(event_queue.get(), timeout=0.1)
                     await websocket.send_json(event)
                 except asyncio.TimeoutError:
-                    continue
+                    pass
 
-            try:
-                response = await task
-                await websocket.send_json({"event":"jarvis.response","response":response})
-            except Exception as exc:
-                await websocket.send_json({
-                    "event":"jarvis.error",
-                    "error":f"{type(exc).__name__}: {exc}",
-                })
+            response = await task
+            await websocket.send_json({
+                "event": "jarvis.response",
+                "response": response,
+            })
     except WebSocketDisconnect:
         return
