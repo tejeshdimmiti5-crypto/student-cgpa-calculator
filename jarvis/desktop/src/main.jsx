@@ -7,7 +7,11 @@ function App(){
  const [messages,setMessages]=useState([]);
  const [input,setInput]=useState("");
  const [online,setOnline]=useState(false);
- const [thinking,setThinking]=useState(false);\n const [activity,setActivity]=useState("STANDBY");\n const [activeAgent,setActiveAgent]=useState("CORE");\n const [agentStates,setAgentStates]=useState({});\n const [gateway,setGateway]=useState("http://localhost:8000");
+ const [thinking,setThinking]=useState(false);
+ const [activity,setActivity]=useState("STANDBY");
+ const [activeAgent,setActiveAgent]=useState("CORE");
+ const [agentStates,setAgentStates]=useState({});
+ const [gateway,setGateway]=useState("http://localhost:8000");
  const [time,setTime]=useState(new Date());
  const ws=useRef(null);
  useEffect(()=>{
@@ -19,12 +23,17 @@ function App(){
      ws.current.onclose=()=>{setOnline(false);setThinking(false)};
      ws.current.onmessage=e=>{
        const d=JSON.parse(e.data);
-       if(d.response){setMessages(m=>[...m,{role:"jarvis",text:d.response}]);setThinking(false);setActivity("COMPLETE")}\n       if(d.event==="jarvis.action.started"){setThinking(true);setActivity("EXECUTING");setActiveAgent((d.target||"CORE").toUpperCase())}\n       if(d.event==="jarvis.action.completed"){setActivity("PROCESSING")}\n       if(d.event==="jarvis.plan.created"){setActivity("PLANNING")}\n       if(d.event==="jarvis.command.received"){setActivity("ANALYZING")}
+       if(d.response){setMessages(m=>[...m,{role:"jarvis",text:d.response}]);setThinking(false);setActivity("COMPLETE")}
+       if(d.event==="jarvis.action.started"){setThinking(true);setActivity("EXECUTING");setActiveAgent((d.target||"CORE").toUpperCase())}
+       if(d.event==="jarvis.action.completed"){setActivity("PROCESSING")}
+       if(d.event==="jarvis.plan.created"){setActivity("PLANNING")}
+       if(d.event==="jarvis.command.received"){setActivity("ANALYZING")}
      };
    }catch{}
    return()=>{clearInterval(timer);ws.current?.close()}
  },[]);
- useEffect(()=>{fetch(gateway+"/v1/status").then(r=>r.json()).then(d=>{const s={};(d.agents||[]).forEach(a=>s[a.name]="ready");setAgentStates(s)}).catch(()=>{})},[online]);\n const send=()=>{
+ useEffect(()=>{fetch(gateway+"/v1/status").then(r=>r.json()).then(d=>{const s={};(d.agents||[]).forEach(a=>s[a.name]="ready");setAgentStates(s)}).catch(()=>{})},[online]);
+ const send=()=>{
    if(!input.trim())return;
    const text=input.trim();
    setMessages(m=>[...m,{role:"user",text}]);
@@ -39,7 +48,8 @@ function App(){
     <div className="brand"><b>JARVIS</b><span>COGNITIVE COMMAND SYSTEM</span></div>
     <div className="header-right"><span>{time.toLocaleTimeString()}</span><i className={online?"on":""}><em/> {online?"ONLINE":"OFFLINE"}</i></div>
    </header>
-   <div className="quick-actions"><button title="Voice mode"><Mic size={16}/></button><button title="Audio output"><Volume2 size={16}/></button><span><Activity size={13}/> LIVE COGNITIVE FEED</span></div>\n   <div className="dashboard">
+   <div className="quick-actions"><button title="Voice mode"><Mic size={16}/></button><button title="Audio output"><Volume2 size={16}/></button><span><Activity size={13}/> LIVE COGNITIVE FEED</span></div>
+   <div className="dashboard">
     <aside className="side left">
       <div className="panel"><label><Activity size={12}/> SYSTEM CORE</label><strong>{online?"ACTIVE":"STANDBY"}</strong><div className="meter"><span/></div></div>
       <div className="panel"><label><BrainCircuit size={12}/> COGNITION</label><div>REASONING <b>READY</b></div><div>MEMORY <b>READY</b></div><div>AGENTS <b>ONLINE</b></div></div>
