@@ -7,7 +7,7 @@ class GeminiProvider(LLMProvider):
     """Google GenAI adapter using a current stable Gemini model."""
     name = "gemini"
     def __init__(self, model: str | None = None) -> None:
-        self.model = model or os.getenv("JARVIS_LLM_MODEL", "gemini-3.8-flash")
+        self.model = model or os.getenv("JARVIS_LLM_MODEL", "gemini-2.0-flash")
         self.api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
         self._client = None
     def _get_client(self):
