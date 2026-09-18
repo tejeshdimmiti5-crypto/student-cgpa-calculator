@@ -1,13 +1,13 @@
 import React,{useEffect,useRef,useState} from "react";
 import {createRoot} from "react-dom/client";
 import "./style.css";
-import { Activity, BrainCircuit, ShieldCheck, Mic, Volume2 } from "lucide-react";
+import { Activity, BrainCircuit, ShieldCheck, Mic, Volume2, Wifi, WifiOff } from "lucide-react";
 
 function App(){
  const [messages,setMessages]=useState([]);
  const [input,setInput]=useState("");
  const [online,setOnline]=useState(false);
- const [thinking,setThinking]=useState(false);\n const [activity,setActivity]=useState("STANDBY");\n const [activeAgent,setActiveAgent]=useState("CORE");\n const [agentStates,setAgentStates]=useState({});
+ const [thinking,setThinking]=useState(false);\n const [activity,setActivity]=useState("STANDBY");\n const [activeAgent,setActiveAgent]=useState("CORE");\n const [agentStates,setAgentStates]=useState({});\n const [gateway,setGateway]=useState("http://localhost:8000");
  const [time,setTime]=useState(new Date());
  const ws=useRef(null);
  useEffect(()=>{
@@ -24,7 +24,7 @@ function App(){
    }catch{}
    return()=>{clearInterval(timer);ws.current?.close()}
  },[]);
- useEffect(()=>{fetch("http://localhost:8000/v1/status").then(r=>r.json()).then(d=>{const s={};(d.agents||[]).forEach(a=>s[a.name]="ready");setAgentStates(s)}).catch(()=>{})},[online]);\n const send=()=>{
+ useEffect(()=>{fetch(gateway+"/v1/status").then(r=>r.json()).then(d=>{const s={};(d.agents||[]).forEach(a=>s[a.name]="ready");setAgentStates(s)}).catch(()=>{})},[online]);\n const send=()=>{
    if(!input.trim())return;
    const text=input.trim();
    setMessages(m=>[...m,{role:"user",text}]);
