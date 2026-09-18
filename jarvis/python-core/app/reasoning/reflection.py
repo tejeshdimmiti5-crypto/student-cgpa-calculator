@@ -8,13 +8,16 @@ class Reflection:
     retryable: bool = False
 
 class ReflectionEngine:
-    """Evaluates execution results and decides whether JARVIS should retry or recover."""
-
+    """Evaluates results using explicit success/error/confirmation semantics."""
     def evaluate(self, output: object, expected: str = "") -> Reflection:
-        if isinstance(output, dict) and output.get("status") == "error":
-            return Reflection(False, 0.2, str(output.get("error", "tool error")), True)
-        if isinstance(output, dict) and output.get("status") == "confirmation_required":
-            return Reflection(False, 0.1, "Explicit confirmation is required", False)
+        if isinstance(output, dict):
+            status = output.get("status")
+            if status == "error":
+                return Reflection(False, 0.20, str(output.get("error", "tool error")), True)
+            if status == "confirmation_required":
+                return Reflection(False, 0.10, "Explicit confirmation is required", False)
+            if status in {"success", "completed", "ready"}:
+                return Reflection(True, 0.90, "Execution completed successfully", False)
         if output is None or str(output).strip() == "":
             return Reflection(False, 0.25, "Empty result", True)
-        return Reflection(True, 0.85, "Execution produced a usable result", False)
+        return Reflection(True, 0.75, "Execution produced a usable result", False)
