@@ -64,7 +64,7 @@ class JarvisOrchestrator:
                 priority=action.priority,
             )
 
-        completed: set[str] = set()
+        self.task_graph.validate()\n        completed: set[str] = set()
         outputs: dict[str, object] = {}
         action_map = {a.action_id: a for a in action_plan.actions}
 
