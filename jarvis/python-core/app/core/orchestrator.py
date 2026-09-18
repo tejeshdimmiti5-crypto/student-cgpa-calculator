@@ -1,4 +1,4 @@
-from app.agents.base import AgentResult
+from app.core.planner import Planner
 from app.memory.memory import Memory
 from app.tasks.graph import TaskGraph
 from app.tasks.scheduler import PriorityScheduler
