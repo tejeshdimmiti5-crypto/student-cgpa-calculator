@@ -7,7 +7,7 @@ function App(){
  const [messages,setMessages]=useState([]);
  const [input,setInput]=useState("");
  const [online,setOnline]=useState(false);
- const [thinking,setThinking]=useState(false);
+ const [thinking,setThinking]=useState(false);\n const [activity,setActivity]=useState("STANDBY");\n const [activeAgent,setActiveAgent]=useState("CORE");
  const [time,setTime]=useState(new Date());
  const ws=useRef(null);
  useEffect(()=>{
@@ -19,7 +19,7 @@ function App(){
      ws.current.onclose=()=>{setOnline(false);setThinking(false)};
      ws.current.onmessage=e=>{
        const d=JSON.parse(e.data);
-       if(d.response){setMessages(m=>[...m,{role:"jarvis",text:d.response}]);setThinking(false)}
+       if(d.response){setMessages(m=>[...m,{role:"jarvis",text:d.response}]);setThinking(false);setActivity("COMPLETE")}\n       if(d.event==="jarvis.action.started"){setThinking(true);setActivity("EXECUTING");setActiveAgent((d.target||"CORE").toUpperCase())}\n       if(d.event==="jarvis.action.completed"){setActivity("PROCESSING")}\n       if(d.event==="jarvis.plan.created"){setActivity("PLANNING")}\n       if(d.event==="jarvis.command.received"){setActivity("ANALYZING")}
      };
    }catch{}
    return()=>{clearInterval(timer);ws.current?.close()}
@@ -51,7 +51,7 @@ function App(){
         <div className="core"><span>J</span></div>
         <div className="pulse"/>
       </div>
-      <div className="core-title">JARVIS <span>◈</span> {thinking?"THINKING":"READY"}</div>
+      <div className="core-title">JARVIS <span>◈</span> {thinking?activity:"READY"}</div><div className="active-agent">ACTIVE NODE // {activeAgent}</div>
       <div className="equalizer">{Array.from({length:18},(_,i)=><i key={i}/>)}</div>
     </section>
     <aside className="side right">
