@@ -1,0 +1,1 @@
+export default function StatusPanel({online}){return <aside><strong>SYSTEM</strong><div>CORE: {online?"ACTIVE":"OFFLINE"}</div><div>MEMORY: READY</div><div>AGENTS: READY</div><div>SECURITY: ENFORCED</div></aside>}
