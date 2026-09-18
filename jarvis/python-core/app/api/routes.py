@@ -1,15 +1,22 @@
 from fastapi import APIRouter
-from app.config import Settings
+import os
 
-router = APIRouter(prefix="/v1")
+router = APIRouter()
 
-settings = Settings()
-
-@router.get("/status")
+@router.get("/v1/status")
 def status():
+    runtime = None
+    try:
+        from app.api.server import jarvis
+        runtime = jarvis.runtime
+        agents = runtime.agent_status()
+    except Exception:
+        agents = []
     return {
-        "service": settings.app_name,
-        "environment": settings.environment,
-        "llm_provider": settings.llm_provider,
-        "model": settings.llm_model,
+        "service": "jarvis",
+        "environment": os.getenv("JARVIS_ENV", "development"),
+        "provider": os.getenv("JARVIS_LLM_PROVIDER", "mock"),
+        "model": os.getenv("JARVIS_LLM_MODEL", "gemini-2.0-flash"),
+        "agents": agents,
+        "agent_count": len(agents),
     }
