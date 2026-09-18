@@ -120,7 +120,20 @@ class JarvisOrchestrator:
                         "action_id": item.task_id, "reason": "explicit confirmation required",
                     }), event_sink)
                 else:
-                    output = self.executor.execute(action)
+                    # Cognitive router can override the static DAG target for direct intents.
+                    if action.action_id == "respond" or decision.agent is None:
+                        output = self.executor.execute(action)
+                    else:
+                        routed = type(action)(
+                            action_id=action.action_id,
+                            kind="agent",
+                            target=decision.agent,
+                            input=action.input,
+                            dependencies=action.dependencies,
+                            priority=action.priority,
+                            requires_confirmation=decision.requires_confirmation,
+                        )
+                        output = self.executor.execute(routed)
 
                 outputs[item.task_id] = output
                 completed.add(item.task_id)
