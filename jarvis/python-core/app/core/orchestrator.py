@@ -13,6 +13,7 @@ from app.perception.models import PerceptionInput
 from app.reasoning.engine import ReasoningEngine
 from app.reasoning.models import ReasoningRequest
 from app.reasoning.dag_planner import DAGPlanner
+from app.reasoning.cognitive_loop import CognitiveLoop
 
 class JarvisOrchestrator:
     """Cognitive coordinator for perception, reasoning, memory, planning and safe execution."""
@@ -31,6 +32,7 @@ class JarvisOrchestrator:
         self.perception = PerceptionEngine()
         self.reasoning = ReasoningEngine()
         self.dag_planner = DAGPlanner()
+        self.cognitive_loop = CognitiveLoop(self)
 
     def _memory_context(self, query: str) -> dict:
         episodic = self.long_term_memory.search(query, limit=5)
@@ -60,11 +62,14 @@ class JarvisOrchestrator:
             })
         )
         action_plan = self.dag_planner.build(normalized)
+        decision = self.cognitive_loop.run(normalized, reasoning)
         self.events.publish(Event("jarvis.plan.created", {
             "goal": action_plan.goal,
             "actions": len(action_plan.actions),
             "confidence": action_plan.confidence,
             "reasoning_steps": len(reasoning.steps),
+                    "decision": decision.intent,
+                    "decision_agent": decision.agent,
         }), event_sink)
 
         if not action_plan.actions:
