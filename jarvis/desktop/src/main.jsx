@@ -1,6 +1,7 @@
 import React,{useEffect,useRef,useState} from "react";
 import {createRoot} from "react-dom/client";
 import "./style.css";
+import { Activity, BrainCircuit, ShieldCheck, Mic, Volume2 } from "lucide-react";
 
 function App(){
  const [messages,setMessages]=useState([]);
@@ -38,11 +39,11 @@ function App(){
     <div className="brand"><b>JARVIS</b><span>COGNITIVE COMMAND SYSTEM</span></div>
     <div className="header-right"><span>{time.toLocaleTimeString()}</span><i className={online?"on":""}><em/> {online?"ONLINE":"OFFLINE"}</i></div>
    </header>
-   <div className="dashboard">
+   <div className="quick-actions"><button title="Voice mode"><Mic size={16}/></button><button title="Audio output"><Volume2 size={16}/></button><span><Activity size={13}/> LIVE COGNITIVE FEED</span></div>\n   <div className="dashboard">
     <aside className="side left">
-      <div className="panel"><label>SYSTEM CORE</label><strong>{online?"ACTIVE":"STANDBY"}</strong><div className="meter"><span/></div></div>
-      <div className="panel"><label>COGNITION</label><div>REASONING <b>READY</b></div><div>MEMORY <b>READY</b></div><div>AGENTS <b>ONLINE</b></div></div>
-      <div className="panel"><label>SECURITY</label><div className="secure">● ENFORCED</div></div>
+      <div className="panel"><label><Activity size={12}/> SYSTEM CORE</label><strong>{online?"ACTIVE":"STANDBY"}</strong><div className="meter"><span/></div></div>
+      <div className="panel"><label><BrainCircuit size={12}/> COGNITION</label><div>REASONING <b>READY</b></div><div>MEMORY <b>READY</b></div><div>AGENTS <b>ONLINE</b></div></div>
+      <div className="panel"><label><ShieldCheck size={12}/> SECURITY</label><div className="secure">● ENFORCED</div></div>
     </aside>
     <section className="center">
       <div className={"reactor "+(thinking?"thinking":"")}>
