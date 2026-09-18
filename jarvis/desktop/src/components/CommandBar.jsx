@@ -1,0 +1,1 @@
+export default function CommandBar({value,onChange,onSend}){return <footer><input value={value} onChange={e=>onChange(e.target.value)} onKeyDown={e=>e.key==="Enter"&&onSend()} placeholder="Command JARVIS..." /><button onClick={onSend}>EXECUTE</button></footer>}
