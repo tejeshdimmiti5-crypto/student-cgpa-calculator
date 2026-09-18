@@ -1,0 +1,8 @@
+COMMAND_RECEIVED = "jarvis.command.received"
+PLAN_CREATED = "jarvis.plan.created"
+ACTION_STARTED = "jarvis.action.started"
+ACTION_COMPLETED = "jarvis.action.completed"
+ACTION_FAILED = "jarvis.action.failed"
+MEMORY_WRITTEN = "jarvis.memory.written"
+SECURITY_BLOCKED = "jarvis.security.blocked"
+GOAL_COMPLETED = "jarvis.goal.completed"
