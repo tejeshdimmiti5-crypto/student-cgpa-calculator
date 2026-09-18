@@ -12,3 +12,12 @@ class ReasoningPlan:
     steps: list[str]
     confidence: float = 0.0
     metadata: dict[str, Any] = field(default_factory=dict)
+
+@dataclass
+class CognitiveDecision:
+    intent: str
+    agent: str | None
+    tool: str | None
+    requires_confirmation: bool
+    confidence: float
+    rationale: str = ""
